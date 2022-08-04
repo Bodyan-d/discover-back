@@ -27,14 +27,6 @@ app.use(passport.initialize());
 
 app.use('/user/images', imagesRouter);
 app.use('/user', userRouter);
-app.use('/', (req, res, next) => {
-	return res.status(200).json({
-		status: 'sucess',
-		code: 200,
-		message: 'It is main route',
-		data: 'Discover',
-	});
-});
 
 // catch 404 and forward to error handler
 app.use((req, res) => {
