@@ -3,7 +3,7 @@ import passportJWT from 'passport-jwt';
 import User from '../models/user.js';
 import 'dotenv/config';
 import express from 'express';
-const SECRET_KEY = process.env.JWT_SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY;
 
 const ExtractJWT = passportJWT.ExtractJwt;
 const Strategy = passportJWT.Strategy;
