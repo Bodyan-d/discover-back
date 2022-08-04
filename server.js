@@ -55,6 +55,7 @@ connection
 	.then(() => {
 		app.listen(PORT, function () {
 			console.log(`Server running. Use our API on port: ${PORT}`);
+			console.log(`Mongoose connected. ${uriDb}`);
 		});
 	})
 	.catch(err =>
