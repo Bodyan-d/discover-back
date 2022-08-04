@@ -1,12 +1,14 @@
-import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import passport from 'passport';
 import logger from 'morgan';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import './passport/config-passport.js';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
@@ -44,9 +46,8 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3030;
-const uriDb = process.env.DB_HOST;
 
-const connection = mongoose.connect(uriDb, {
+const connection = mongoose.connect(process.env.DB_MONGO, {
 	promiseLibrary: global.Promise,
 	useNewUrlParser: true,
 });
@@ -55,7 +56,7 @@ connection
 	.then(() => {
 		app.listen(PORT, function () {
 			console.log(`Server running. Use our API on port: ${PORT}`);
-			console.log(`Mongoose connected. ${uriDb}`);
+			console.log(`mongo database is connected!!! ${connection.host} `);
 		});
 	})
 	.catch(err =>
