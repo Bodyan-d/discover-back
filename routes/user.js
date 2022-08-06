@@ -4,7 +4,7 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 import 'dotenv/config';
-const secret = process.env.SECRET;
+const secret = process.env.SECRET_KEY;
 
 const auth = (req, res, next) => {
 	passport.authenticate('jwt', { session: false }, (err, user) => {

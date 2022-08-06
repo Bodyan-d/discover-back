@@ -43,22 +43,18 @@ app.use((err, req, res, next) => {
 	});
 });
 
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 3000;
 const uriDb = process.env.DB_MONGO;
-const SECRET_KEY = process.env.SECRET_KEY;
 
-const connection = mongoose.connect(process.env.DB_MONGO, {
+const connection = mongoose.connect(uriDb, {
 	promiseLibrary: global.Promise,
 	useNewUrlParser: true,
 });
 
 connection
 	.then(() => {
-		app.listen(PORT, function () {
+		app.listen(PORT, () => {
 			console.log(`Server running. Use our API on port: ${PORT}`);
-			console.log(
-				`mongo database is connected!!! ${connection.host}, ${uriDb} `
-			);
 		});
 	})
 	.catch(err =>
