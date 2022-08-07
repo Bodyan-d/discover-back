@@ -52,7 +52,6 @@ router.post('/login', async (req, res, next) => {
 	const { email, password } = req.body;
 	const user = await User.findOne({ email });
 	const id = user._id;
-	console.log(id);
 
 	if (!user || !user.validPassword(password)) {
 		return res.status(400).json({
@@ -68,7 +67,7 @@ router.post('/login', async (req, res, next) => {
 		username: user.username,
 	};
 
-	const token = jwt.sign(payload, secret, { expiresIn: '1m' });
+	const token = jwt.sign(payload, secret, { expiresIn: '52286w' });
 	await User.findOneAndUpdate({ _id: id }, { accessToken: token });
 
 	res.json({
@@ -86,7 +85,7 @@ router.get('/profile', auth, (req, res, next) => {
 		status: 'success',
 		code: 200,
 		data: {
-			message: `Authorization was successful: ${username}`,
+			message: `Authorization was successful: `,
 		},
 	});
 });

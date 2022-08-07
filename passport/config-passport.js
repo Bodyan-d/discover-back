@@ -1,9 +1,7 @@
 import passport from 'passport';
-import { Strategy } from 'passport-local';
-import { ExtractJwt } from 'passport-jwt';
+import { Strategy, ExtractJwt } from 'passport-jwt';
 import User from '../models/user.js';
 import 'dotenv/config';
-import express from 'express';
 const SECRET_KEY = process.env.SECRET_KEY;
 
 const params = {
@@ -24,17 +22,3 @@ passport.use(
 		}
 	})
 );
-
-// JWT Strategy
-// passport.use(
-// 	new Strategy(params, function (payload, done) {
-// 		User.find({ _id: payload.id })
-// 			.then(([user]) => {
-// 				if (!user) {
-// 					return done(new Error('User not found'), false);
-// 				}
-// 				return done(null, user);
-// 			})
-// 			.catch(err => done(err));
-// 	})
-// );
