@@ -1,6 +1,6 @@
 import passport from 'passport';
-import { ExtractJwt } from 'passport-jwt';
-import { Strategy } from 'passport-local';
+import { Strategy, ExtractJwt } from 'passport-jwt';
+
 import User from '../models/user.js';
 import 'dotenv/config';
 const SECRET_KEY = process.env.SECRET_KEY;
