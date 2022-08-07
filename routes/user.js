@@ -92,7 +92,6 @@ router.get('/profile', auth, (req, res, next) => {
 
 router.get('/logout', auth, async (req, res, next) => {
 	const id = req.user._id;
-	console.log(req.user);
 	await User.findOneAndUpdate(id, null, null);
 	return res.status(204).json({});
 });
