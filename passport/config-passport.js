@@ -1,4 +1,4 @@
-import { use } from 'passport';
+import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import User from '../modules/user.js';
 require('dotenv').config();
@@ -9,7 +9,7 @@ const params = {
 	secretOrKey: SECRET_KEY,
 };
 
-use(
+passport.use(
 	new Strategy(params, async (payload, done) => {
 		try {
 			const user = await User.findById(payload.id);
