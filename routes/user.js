@@ -4,7 +4,7 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 import 'dotenv/config';
-const secret = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY;
 
 const auth = (req, res, next) => {
 	passport.authenticate('jwt', { session: false }, (err, user) => {
@@ -67,8 +67,9 @@ router.post('/login', async (req, res, next) => {
 		username: user.username,
 	};
 
-	const token = jwt.sign(payload, secret, { expiresIn: '52286w' });
+	const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '52286w' });
 	await User.findOneAndUpdate({ _id: id }, { accessToken: token });
+	console.log('XUI', token, SECRET_KEY);
 
 	res.json({
 		status: 'success',
