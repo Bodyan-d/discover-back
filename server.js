@@ -43,7 +43,7 @@ app.use((err, req, res, next) => {
 	});
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const uriDb = process.env.DB_MONGO;
 
 const connection = mongoose.connect(uriDb, {
