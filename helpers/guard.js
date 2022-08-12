@@ -7,10 +7,9 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const guard = async (req, res, next) => {
 	passport.authenticate('jwt', { session: false }, async (error, user) => {
 		var token = req.headers.authorization.split(' ')[1];
-		console.log('token', token);
+
 		if (!user || error || token !== user.token) {
 			jwt.verify(token, SECRET_KEY, function (error, decoded) {
-				console.log('ERROR', error);
 				if (error) {
 					if (error.name === 'TokenExpiredError')
 						return res.json({
@@ -34,6 +33,7 @@ const guard = async (req, res, next) => {
 				});
 			});
 		}
+
 		req.user = user;
 		return next();
 	})(req, res, next);
