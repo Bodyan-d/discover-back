@@ -4,7 +4,10 @@ import bCrypt from 'bcryptjs';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-	username: String,
+	username: {
+		type: String,
+		required: [true, 'Username is required'],
+	},
 	email: {
 		type: String,
 		required: [true, 'Email required'],
@@ -14,6 +17,8 @@ const userSchema = new Schema({
 		type: String,
 		required: [true, 'Password required'],
 	},
+
+	token: String,
 });
 
 userSchema.methods.setPassword = function (password) {

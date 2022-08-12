@@ -3,23 +3,9 @@ const router = express.Router();
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
+import guard from '../helpers/guard.js';
 import 'dotenv/config';
 const SECRET_KEY = process.env.SECRET_KEY;
-
-const auth = (req, res, next) => {
-	passport.authenticate('jwt', { session: false }, (err, user) => {
-		if (!user || err) {
-			return res.status(401).json({
-				status: 'error',
-				code: 401,
-				message: 'Unauthorized',
-				data: 'Unauthorized',
-			});
-		}
-		req.user = user;
-		next();
-	})(req, res, next);
-};
 
 router.post('/registration', async (req, res, next) => {
 	const { username, email, password } = req.body;
@@ -34,14 +20,14 @@ router.post('/registration', async (req, res, next) => {
 	}
 	try {
 		const newUser = new User({ username, email });
+		const id = newUser._id;
 		newUser.setPassword(password);
 		await newUser.save();
 		res.status(201).json({
 			status: 'success',
 			code: 201,
-			data: {
-				message: 'Registration successful',
-			},
+			message: 'Registration successful',
+			data: { id, username, email, password },
 		});
 	} catch (error) {
 		next(error);
@@ -67,31 +53,37 @@ router.post('/login', async (req, res, next) => {
 		username: user.username,
 	};
 
-	const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '52286w' });
-	await User.findOneAndUpdate({ _id: id }, { accessToken: token });
-	console.log('XUI', token, SECRET_KEY);
+	const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '1y' });
+	await User.updateOne({ _id: id }, { token });
 
-	res.json({
+	res.status(200).json({
 		status: 'success',
 		code: 200,
 		data: {
 			token,
+			id,
+			username: user.username,
+			email: user.email,
+			password: user.password,
 		},
 	});
 });
 
-router.get('/profile', auth, (req, res, next) => {
-	const { username } = req.user;
-	res.json({
-		status: 'success',
-		code: 200,
-		data: {
-			message: `Authorization was successful: `,
-		},
-	});
+router.get('/profile', guard, async (req, res, next) => {
+	console.log('profile/reguest');
+	try {
+		const { email, _id, username, token, password } = req.user;
+		return res.status(200).json({
+			status: 'success',
+			code: 200,
+			data: { id: _id, username, email, password, token },
+		});
+	} catch (error) {
+		next(error);
+	}
 });
 
-router.get('/logout', auth, async (req, res, next) => {
+router.get('/logout', guard, async (req, res, next) => {
 	const id = req.user._id;
 	await User.findOneAndUpdate(id, null, null);
 	return res.status(204).json({});
