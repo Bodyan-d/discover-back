@@ -12,15 +12,19 @@ opts.secretOrKey = SECRET_KEY;
 passport.use(
 	new JwtStrategy(opts, function (payload, done) {
 		User.findOne({ _id: payload.id }, function (err, user) {
+			console.log(user);
 			if (err) {
+				console.log('ERROR');
 				return done(err, false);
 			}
 			if (!user.token) {
+				console.log('No token');
 				return done(null, false);
 			}
 			if (user) {
 				return done(null, user);
 			} else {
+				console.log('User not found');
 				return done(new Error('User not found'), false);
 			}
 		});
