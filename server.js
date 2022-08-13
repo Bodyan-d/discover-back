@@ -30,7 +30,7 @@ app.use(passport.initialize());
 
 app.use('/user/images', imagesRouter);
 app.use('/user', userRouter);
-
+app.options('*', cors());
 // catch 404 and forward to error handler
 app.use((req, res) => {
 	res.status(404).json({ status: 'error', code: 404, message: 'Not found' });
