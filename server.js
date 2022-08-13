@@ -5,6 +5,7 @@ import passport from 'passport';
 import logger from 'morgan';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+import helmet from 'helmet';
 import 'dotenv/config';
 
 import './passport/config-passport.js';
@@ -19,6 +20,7 @@ const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
+app.use(helmet());
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
