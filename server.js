@@ -1,11 +1,12 @@
+import express from 'express';
+import mongoose from 'mongoose';
 import path from 'path';
 import passport from 'passport';
 import logger from 'morgan';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 import 'dotenv/config';
-import express from 'express';
-import mongoose from 'mongoose';
+
 import './passport/config-passport.js';
 
 const __filename = fileURLToPath(import.meta.url);
