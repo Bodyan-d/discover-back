@@ -13,6 +13,7 @@ passport.use(
 	new JwtStrategy(opts, function (payload, done) {
 		User.findOne({ _id: payload.id }, function (err, user) {
 			console.log(user);
+			console.log(user.token);
 			if (err) {
 				console.log('ERROR');
 				return done(err, false);
