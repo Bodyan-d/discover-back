@@ -82,10 +82,10 @@ router.get('/profile', guard, async (req, res, next) => {
 		next(error);
 	}
 });
-
-router.get('/logout', guard, async (req, res, next) => {
-	const id = req.user._id;
-	await User.updateOne({ _id: id }, { token: null });
+// guard
+router.get('/logout', async (req, res, next) => {
+	// const id = req.user._id;
+	// await User.updateOne({ _id: id }, { token: null });
 	return res.status(204).json({});
 });
 export default router;

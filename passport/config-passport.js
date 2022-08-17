@@ -13,12 +13,12 @@ passport.use(
 	new JwtStrategy(opts, function (payload, done) {
 		User.findOne({ _id: payload.id }, function (err, user) {
 			console.log(user);
-			console.log(user.token);
+			// console.log(user.token);
 			if (err) {
 				console.log('ERROR');
 				return done(err, false);
 			}
-			if (!user.token) {
+			if (!user?.token) {
 				console.log('No token');
 				return done(null, false);
 			}
