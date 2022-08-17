@@ -70,22 +70,22 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/profile', guard, async (req, res, next) => {
+	console.log('profile/reguest');
 	try {
-		const { email, id, username, token, password } = req.user;
-
+		const { email, _id, username, token, password } = req.user;
 		return res.status(200).json({
 			status: 'success',
 			code: 200,
-			data: { id, username, email, password, token },
+			data: { id: _id, username, email, password, token },
 		});
 	} catch (error) {
 		next(error);
 	}
 });
-// guard
-router.get('/logout', async (req, res, next) => {
-	// const id = req.user._id;
-	// await User.updateOne({ _id: id }, { token: null });
+
+router.get('/logout', guard, async (req, res, next) => {
+	const id = req.user._id;
+	await User.findOneAndUpdate(id, null, null);
 	return res.status(204).json({});
 });
 export default router;
