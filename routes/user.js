@@ -37,7 +37,8 @@ router.post('/registration', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
 	const { email, password } = req.body;
 	const user = await User.findOne({ email });
-	const id = user._id;
+	console.log(user);
+	const id = user.id;
 
 	if (!user || !user.validPassword(password)) {
 		return res.status(400).json({

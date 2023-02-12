@@ -9,20 +9,25 @@ const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = SECRET_KEY;
 
+console.log('fjwnibj');
+
 passport.use(
-	new JwtStrategy(opts, function (payload, done) {
-		User.findOne({ _id: payload.id }, function (err, user) {
-			if (err) {
-				return done(err, false);
-			}
-			if (!user.token) {
-				return done(null, false);
-			}
-			if (user) {
-				return done(null, user);
-			} else {
+	new JwtStrategy(opts, async function (payload, done) {
+		console.log('Payload', payload);
+		try {
+			const user = await User.findOne({ _id: payload.id });
+			console.log('User', user);
+			if (!user) {
+				console.log('!user', user);
 				return done(new Error('User not found'), false);
 			}
-		});
+			if (!user.token) {
+				console.log('!user.token', user);
+				return done(null, false);
+			}
+			return done(null, user);
+		} catch (error) {
+			return done(error, false);
+		}
 	})
 );
